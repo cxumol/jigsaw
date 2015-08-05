@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+        <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+        <title>动手改hexo - Jigsaw of CxumoL</title>
+        <meta name="keywords" content=""/>
+        <meta name="description" content="welcome^_^haha"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+        <div id="container">
+            
+<div id="header">
+  <div id="post-nav"><a href="/">Home</a>&nbsp;»&nbsp;<a href="/#Tech">Tech</a>&nbsp;»&nbsp;动手改hexo</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">动手改hexo</div>
+  <div id="content">
+  <p>[toc]</p>
+<h2 id="_1">必备插件</h2>
+<p>git方式部署 <code>hexo-deployer-git</code><br />
+生成feed <code>hexo-generator-feed</code><br />
+时尚的pandoc渲染器 <code>hexo-renderer-pandoc</code>（其实还得在本机装pandoc）  </p>
+<h2 id="_2">改主题</h2>
+<p>挑啊挑。<br />
+主题"coney"，修改自pacman。</p>
+<h3 id="disqus">回归Disqus</h3>
+<p>pacman为国人编写，采用“多说”作为评论系统。然而，反感于“多说”必须用国内账号绑定，不能用邮箱等方式注册；更为了衬托个人高冷的气质，决心把评论系统改回Hexo默认的Disqus。  </p>
+<p>走了一些弯路，不表。  </p>
+<p>搜了一下，果然有人<a href="http://blog.jamespan.me/2015/04/18/goodbye-duoshuo/">也这么干过</a>，另外再参考<a href="http://morris821028.github.io/2014/04/12/web/hexo-comment/">这篇教程</a>，把disqus搞回来了。</p>
+<h4 id="_3">怎么改：</h4>
+<p>主题装好，先删掉.git文件夹，以免更新后，自己辛勤劳动毁于一旦。</p>
+<blockquote>
+<p>site.config </p>
+</blockquote>
+<p><code>disqus_shortname: ooxx</code></p>
+<blockquote>
+<p>themes/xxxx/layout/_partial/post/comment.ejs</p>
+</blockquote>
+<div class="hlcode"><pre><span class="err">&lt;</span>% if (page.comments){ %&gt;
+<span class="nt">&lt;section</span> <span class="na">calss=</span><span class="s">&quot;comment&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;disqus_thread&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+    <span class="cm">/* * * CONFIGURATION VARIABLES * * */</span>
+    <span class="kd">var</span> <span class="nx">disqus_shortname</span> <span class="o">=</span> <span class="s1">&#39;ooxx&#39;</span><span class="p">;</span>
+
+    <span class="cm">/* * * DON&#39;T EDIT BELOW THIS LINE * * */</span>
+    <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">dsq</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span> <span class="nx">dsq</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
+        <span class="nx">dsq</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="nx">dsq</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;//&#39;</span> <span class="o">+</span> <span class="nx">disqus_shortname</span> <span class="o">+</span> <span class="s1">&#39;.disqus.com/embed.js&#39;</span><span class="p">;</span>
+        <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">dsq</span><span class="p">);</span>
+    <span class="p">})();</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;noscript&gt;</span>Please enable JavaScript to view the <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://disqus.com/?ref_noscript&quot;</span> <span class="na">rel=</span><span class="s">&quot;nofollow&quot;</span><span class="nt">&gt;</span>comments powered by Disqus.<span class="nt">&lt;/a&gt;&lt;/noscript&gt;</span>
+<span class="nt">&lt;/section&gt;</span>
+<span class="err">&lt;</span>% } %&gt;
+</pre></div>
+
+
+<blockquote>
+<p>themes/xxxx/layout/_partial/after_footer.ejs</p>
+</blockquote>
+<div class="hlcode"><pre><span class="err">&lt;</span>% if (page.comments){ %&gt;
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+
+    <span class="kd">var</span> <span class="nx">disqus_shortname</span> <span class="o">=</span> <span class="s1">&#39;ooxx&#39;</span><span class="p">;</span>
+
+
+    <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span> <span class="nx">s</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="nx">s</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
+        <span class="nx">s</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;//&#39;</span> <span class="o">+</span> <span class="nx">disqus_shortname</span> <span class="o">+</span> <span class="s1">&#39;.disqus.com/count.js&#39;</span><span class="p">;</span>
+        <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;HEAD&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;BODY&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+    <span class="p">}());</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="err">&lt;</span>% } %&gt;
+</pre></div>
+
+
+<blockquote>
+<p>新建  themes/xxxx/source/css/_partial/comment.styl</p>
+</blockquote>
+<div class="hlcode"><pre>  <span class="nf">#comment</span>
+  <span class="nt">padding</span> <span class="nt">20px</span>
+  <span class="nt">background</span> <span class="nf">#272822</span>
+  <span class="nt">box-shadow</span> <span class="nt">1px</span> <span class="nt">2px</span> <span class="nt">3px</span> <span class="nf">#ddd</span>
+  <span class="nt">margin-bottom</span> <span class="nt">50px</span>
+  <span class="nc">.title</span>
+    <span class="nt">font-weight</span> <span class="nt">normal</span>
+    <span class="nt">margin-bottom</span> <span class="nt">15px</span>
+</pre></div>
+
+
+<blockquote>
+<p>theme/xxxx/source/_partial/css/style.styl</p>
+</blockquote>
+<p><code>@import '_partial/comment'</code></p>
+<h3 id="_4">顶栏</h3>
+<h5 id="header">还是觉得header太高了</h5>
+<blockquote>
+<p>在header&gt;body&gt;padding的第三个,我是改成了0.8em</p>
+</blockquote>
+<h5 id="_5">图标缩小后看不清啊，变大</h5>
+<h5 id="_6">去掉侧栏显示按钮的白框（未能解决按钮乱飘的问题）</h5>
+<h5></h5>
+</div>
+
+        </div>
+        <div id="footer">
+            <span>
+                Copyright © 2012-2015 CxumoL.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+            </span>
+        </div>
+        
+    </body>
+</html>

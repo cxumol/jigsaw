@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+        <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+        <title>动手改simiki - Jigsaw of CxumoL</title>
+        <meta name="keywords" content=""/>
+        <meta name="description" content="welcome^_^haha"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+        <div id="container">
+            
+<div id="header">
+  <div id="post-nav"><a href="/">Home</a>&nbsp;»&nbsp;<a href="/#Tech">Tech</a>&nbsp;»&nbsp;动手改simiki</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">动手改simiki</div>
+  <div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">样式</a></li>
+<li><a href="#_2">简单粗暴·杂交两种首页</a><ul>
+<li><a href="#_3">改首页模板</a></li>
+<li><a href="#_4">目录生成~移花接木</a><ul>
+<li><a href="#_5">传参进来</a></li>
+<li><a href="#_6">百尺竿头</a></li>
+<li><a href="#_7">功成</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_8">生成目录</a></li>
+</ul>
+</div>
+<p><a href="http://simiki.org">simiki</a> 是 Jigsaw of CxumoL 使用的 wiki 框架，属国产个人作品。</p>
+<h2 id="_1">样式</h2>
+<ul>
+<li>换成<a href="https://tankywoo.com/">原作者</a>做的另一配色；  </li>
+<li>字体照例添上"Microsoft YaHei"；  </li>
+<li><code>#container</code>从原先的 style.css 复制出三个 shadow，粘过来，显出酷酷的阴影；【这种背景色下，一点也不明显</li>
+<li>其余不变。</li>
+</ul>
+<h2 id="_2">简单粗暴·杂交两种首页</h2>
+<p>1.3 以后的 simiki，如果 site_config 的 index 为 true，那么会把放在 source/ 内，自己写的 index.md 当作首页渲染。否则，根据文件结构，自动生成 wiki 目录，作为首页。我是觉得这种方式不太灵活。如果既能自编首页内容，又能保留自动生成的目录；目录或是放在首页之下，或是新开一页，是为目录页，岂不妙哉。  </p>
+<p>像现在这般，上面自定内容，下面放置脚本生成的目录，须从两处着手。<br />
+本应更有妙招，奈何技术不精，下述方案，无不体现了简单粗暴的霸蛮风格。</p>
+<h3 id="_3">改首页模板</h3>
+<blockquote>
+<p>/themes/simple/index.html</p>
+</blockquote>
+<div class="hlcode"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">site.index</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">  </span><span class="cp">{{</span> <span class="nv">page.content</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">  ooo</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">  xxx</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+
+
+<p>把 xxx ， 复制到 ooo 的位置，结果没有用。应该是还有哪里缺了东西。</p>
+<h3 id="_4">目录生成~移花接木</h3>
+<p>到底是拿<em>我py</em>编出来的，这时候赶紧趁机得意洋洋地炫耀其优越性：想改神马，直接改源码，改完马上就能运行。顺着<code>报错提示</code>摸到了这里：</p>
+<blockquote>
+<p>%python-env%/Lib/site-packages/simiki/generators.py </p>
+</blockquote>
+<p>分析调试不表。<br />
+我不懂面向对象，若有大神看到以下胡闹，别打我。若能不嫌弃指点一二，更是感激。  </p>
+<p>把CatalogGenerator类的（除了<code>__init__</code>,<code>get_template_vars</code>，<code>generate_catalog_html</code>）各种函数，统统复制到CustomCatalogGenerator麾下。</p>
+<h4 id="_5">传参进来</h4>
+<p>CustomCatalogGenerator<strong>(以下简称CCG)</strong> 比 CatalogGenerator<strong>(以下简称CG)</strong> 少进来一个参数pages。</p>
+<p><strong>init</strong>()里面，不知道为什么， CG 的 super() 第一个是self, CCG 的,第一个就不能是self。<br />
+反正我CCG的<code>__init__()</code>是这么写的:</p>
+<div class="hlcode"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_config</span><span class="p">,</span> <span class="n">base_path</span><span class="p">,</span> <span class="n">pages</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CustomCatalogGenerator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">site_config</span><span class="p">,</span>                                                     <span class="n">base_path</span><span class="p">,</span><span class="n">pages</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pages</span> <span class="o">=</span> <span class="n">pages</span>
+</pre></div>
+
+
+<p>至于是哪一句起了作用，还是共同起作用……不管他，反正能用。</p>
+<p>另外，cli.py 里 <code>Generator.generate_catalog</code> 相应的,加上<code>pages</code></p>
+<h4 id="_6">百尺竿头</h4>
+<p>CCG的get_template_vars中生成自定内容的部分，到 <code>page = {"content": idx_content}</code> 为止，趁着还没有和 <code>site_config</code> 一起，打包到 tpl_vars 里面，赶紧夹带点私货。 </p>
+<div class="hlcode"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">site_config</span><span class="p">[</span><span class="s">&quot;structure&quot;</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">sort_structure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_content_structure_and_meta</span><span class="p">())</span>
+</pre></div>
+
+
+<p><code>好吧，所谓私货，其实也是从 CG 里搬运过来的</code></p>
+<h4 id="_7">功成</h4>
+<h2 id="_8">生成目录</h2>
+<blockquote>
+<p>维基页面嘛，不都得摆个目录，装装b吗</p>
+</blockquote>
+<p>其实它本来就支持 TOC，然而文档里面并没有提到。说一下发现过程。<br />
+simiki 开源，托管在 github，先用 <em>repo内搜索</em>，发现是有 TOC 功能的。然并卵，不知道怎么用<br />
+抱着试一试的心态，又在issue搜了一遍，哈哈哈，居然找到了用法。</p>
+<blockquote>
+<p>在需要 TOC 的地方写上 <code>[TOC]</code> ，即可。</p>
+</blockquote>
+<p>想自动给每篇新page加目录。然而 simiki 耦合度并不象 hexo 那么低，又得到 <code>site-packages/simiki/cli.py</code> 里<br />
+找到函数 <code>create_new_wiki</code>，加一行 <code>"[TOC]"</code> </p>
+</div>
+
+        </div>
+        <div id="footer">
+            <span>
+                Copyright © 2012-2015 CxumoL.
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+            </span>
+        </div>
+        
+    </body>
+</html>

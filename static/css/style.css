@@ -129,6 +129,9 @@ pre code {
     padding: 3em 2em 1.5em 2em;
     background-color: #FBFFFD;
     border: 1px solid #eee;
+    box-shadow: 2px 2px 8px #aaa;
+    -webkit-box-shadow: 2px 2px 8px #aaa;
+    -moz-box-shadow: 2px 2px 8px #aaa;
 }
 
 #container a {
