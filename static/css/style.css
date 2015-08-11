@@ -186,6 +186,7 @@ li.pagelist:before {
 .category {
     float: left;
     width: 100px;
+    height: 8em
 }
 .category_list {
     float: left;
@@ -205,6 +206,12 @@ li.pagelist:before {
     margin: 0 auto;
     max-width: 720px;
     display: block;
+}
+
+
+#content li {
+    margin-bottom: 0.7em
+
 }
 
 /* Table of Contents */
