@@ -42,9 +42,15 @@
 <li>其余不变。</li>
 </ul>
 <h2 id="_2">简单粗暴·杂交两种首页</h2>
-<p>1.3 以后的 simiki，如果 site_config 的 index 为 true，那么会把放在 source/ 内，自己写的 index.md 当作首页渲染。否则，根据文件结构，自动生成 wiki 目录，作为首页。我是觉得这种方式不太灵活。如果既能自编首页内容，又能保留自动生成的目录；目录或是放在首页之下，或是新开一页，是为目录页，岂不妙哉。  </p>
-<p>像现在这般，上面自定内容，下面放置脚本生成的目录，须从两处着手。<br />
-本应更有妙招，奈何技术不精，下述方案，无不体现了简单粗暴的霸蛮风格。</p>
+<p>两种首页：</p>
+<ol>
+<li>%source%/index.md </li>
+<li>根据文件结构，自动生成 wiki 目录</li>
+</ol>
+<p>1.3 以后的 simiki，如果 site_config 的 index 为 true，按照第一种方式渲染，否则按第二种方式</p>
+<p>这个处理办法，不太灵活。如果既能自编首页内容，又能保留自动生成的目录：目录或是放在首页之下，或是新开一页，是为目录页，岂不妙哉。  </p>
+<p>若想改成像现在这般，上面为自定内容，下面放置脚本生成的目录，须从两处着手。<br />
+本应更有妙招，奈何技术不精，下述方案，无不体现了简单粗暴的<strong>霸蛮</strong>风格。</p>
 <h3 id="_3">改首页模板</h3>
 <blockquote>
 <p>/themes/simple/index.html</p>
@@ -60,7 +66,7 @@
 
 <p>把 xxx ， 复制到 ooo 的位置，结果没有用。应该是还有哪里缺了东西。</p>
 <h3 id="_4">目录生成~移花接木</h3>
-<p>到底是拿<em>我py</em>编出来的，这时候赶紧趁机得意洋洋地炫耀其优越性：想改神马，直接改源码，改完马上就能运行。顺着<code>报错提示</code>摸到了这里：</p>
+<p>到底是拿<em>我py</em>编出来的，这时候赶紧趁机得意洋洋地炫耀其优越性：想改神马，直接改源码，改完马上就能运行。顺着<code>报错提示</code>，摸到了这里：</p>
 <blockquote>
 <p>%python-env%/Lib/site-packages/simiki/generators.py </p>
 </blockquote>
@@ -69,17 +75,17 @@
 <p>把CatalogGenerator类的（除了<code>__init__</code>,<code>get_template_vars</code>，<code>generate_catalog_html</code>）各种函数，统统复制到CustomCatalogGenerator麾下。</p>
 <h4 id="_5">传参进来</h4>
 <p>CustomCatalogGenerator<strong>(以下简称CCG)</strong> 比 CatalogGenerator<strong>(以下简称CG)</strong> 少进来一个参数pages。</p>
-<p><strong>init</strong>()里面，不知道为什么， CG 的 super() 第一个是self, CCG 的,第一个就不能是self。<br />
-反正我CCG的<code>__init__()</code>是这么写的:</p>
+<p><code>__init__()</code>里面，不知道为什么， CG 的 super() 第一个是self, 可是 CCG 的,第一个就不能是self。<br />
+反正我 CCG 的 <code>__init__()</code> 是这么写的:</p>
 <div class="hlcode"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_config</span><span class="p">,</span> <span class="n">base_path</span><span class="p">,</span> <span class="n">pages</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">CustomCatalogGenerator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">site_config</span><span class="p">,</span>                                                     <span class="n">base_path</span><span class="p">,</span><span class="n">pages</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CustomCatalogGenerator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">site_config</span><span class="p">,</span><span class="n">base_path</span><span class="p">,</span><span class="n">pages</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pages</span> <span class="o">=</span> <span class="n">pages</span>
 </pre></div>
 
 
 <p>至于是哪一句起了作用，还是共同起作用……不管他，反正能用。</p>
-<p>另外，cli.py 里 <code>Generator.generate_catalog</code> 相应的,加上<code>pages</code></p>
+<p>另外，cli.py 里 <code>Generator.generate_catalog</code> 相应的,不忘加上<code>pages</code></p>
 <h4 id="_6">百尺竿头</h4>
 <p>CCG的get_template_vars中生成自定内容的部分，到 <code>page = {"content": idx_content}</code> 为止，趁着还没有和 <code>site_config</code> 一起，打包到 tpl_vars 里面，赶紧夹带点私货。 </p>
 <div class="hlcode"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">site_config</span><span class="p">[</span><span class="s">&quot;structure&quot;</span><span class="p">]</span> <span class="o">=</span> \
@@ -93,14 +99,14 @@
 <blockquote>
 <p>维基页面嘛，不都得摆个目录，装装b吗</p>
 </blockquote>
-<p>其实它本来就支持 TOC，然而文档里面并没有提到。说一下发现过程。<br />
+<p>其实它本来就支持 TOC，但是，文档里面并没有提到这个功能。说一下发现过程。<br />
 simiki 开源，托管在 github，先用 <em>repo内搜索</em>，发现是有 TOC 功能的。然并卵，不知道怎么用<br />
 抱着试一试的心态，又在issue搜了一遍，哈哈哈，居然找到了用法。</p>
 <blockquote>
 <p>在需要 TOC 的地方写上 <code>[TOC]</code> ，即可。</p>
 </blockquote>
-<p>想自动给每篇新page加目录。然而 simiki 耦合度并不象 hexo 那么低，又得到 <code>site-packages/simiki/cli.py</code> 里<br />
-找到函数 <code>create_new_wiki</code>，加一行 <code>"[TOC]"</code> </p>
+<p>想自动给每篇新page加目录。然而 simiki 耦合度并不象 hexo 那么低，又得到 <code>site-packages/simiki/cli.py</code> 里</p>
+<p>找到函数 <code>create_new_wiki</code>，加一行 <code>"[TOC]"</code> </p>
 </div>
 
         </div>
