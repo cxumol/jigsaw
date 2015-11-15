@@ -5,7 +5,7 @@
         <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
         <title>动手改hexo - Jigsaw of CxumoL</title>
         <meta name="keywords" content=""/>
-        <meta name="description" content="welcome^_^haha"/>
+        <meta name="description" content="welcome^_^"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
 
@@ -39,7 +39,7 @@
 <blockquote>
 <p>themes/xxxx/layout/_partial/post/comment.ejs</p>
 </blockquote>
-<div class="hlcode"><pre><span class="err">&lt;</span>% if (page.comments){ %&gt;
+<div class="hlcode"><pre>&lt;% if (page.comments){ %&gt;
 <span class="nt">&lt;section</span> <span class="na">calss=</span><span class="s">&quot;comment&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;disqus_thread&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
 <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
@@ -56,14 +56,14 @@
 <span class="nt">&lt;/script&gt;</span>
 <span class="nt">&lt;noscript&gt;</span>Please enable JavaScript to view the <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://disqus.com/?ref_noscript&quot;</span> <span class="na">rel=</span><span class="s">&quot;nofollow&quot;</span><span class="nt">&gt;</span>comments powered by Disqus.<span class="nt">&lt;/a&gt;&lt;/noscript&gt;</span>
 <span class="nt">&lt;/section&gt;</span>
-<span class="err">&lt;</span>% } %&gt;
+&lt;% } %&gt;
 </pre></div>
 
 
 <blockquote>
 <p>themes/xxxx/layout/_partial/after_footer.ejs</p>
 </blockquote>
-<div class="hlcode"><pre><span class="err">&lt;</span>% if (page.comments){ %&gt;
+<div class="hlcode"><pre>&lt;% if (page.comments){ %&gt;
 <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
 
     <span class="kd">var</span> <span class="nx">disqus_shortname</span> <span class="o">=</span> <span class="s1">&#39;ooxx&#39;</span><span class="p">;</span>
@@ -76,7 +76,7 @@
         <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;HEAD&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;BODY&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
     <span class="p">}());</span>
 <span class="nt">&lt;/script&gt;</span>
-<span class="err">&lt;</span>% } %&gt;
+&lt;% } %&gt;
 </pre></div>
 
 

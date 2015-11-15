@@ -5,7 +5,7 @@
         <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
         <title>codec&IO - Jigsaw of CxumoL</title>
         <meta name="keywords" content=""/>
-        <meta name="description" content="welcome^_^haha"/>
+        <meta name="description" content="welcome^_^"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
 
@@ -27,7 +27,7 @@
 </ul>
 </div>
 <h2 id="codec">codec</h2>
-<div class="hlcode"><pre>最简写法： # coding: utf8
+<div class="hlcode"><pre>最简写法： # <span class="n">coding</span><span class="o">:</span> <span class="n">utf8</span>
 </pre></div>
 
 
@@ -47,28 +47,28 @@
 
 
 <p>属性  </p>
-<div class="hlcode"><pre>- closed #标记文件是否已经关闭，由close()改写  
-- encoding #文件编码
-- mode #打开模式  
-- name #文件名
+<div class="hlcode"><pre><span class="o">-</span> <span class="n">closed</span> #标记文件是否已经关闭，由<span class="n">close</span><span class="p">()</span>改写  
+<span class="o">-</span> <span class="n">encoding</span> #文件编码
+<span class="o">-</span> <span class="n">mode</span> #打开模式  
+<span class="o">-</span> <span class="n">name</span> #文件名
 </pre></div>
 
 
 <p>方法</p>
-<div class="hlcode"><pre>F.read([size]) #size为读取的长度，以byte为单位
-F.readline([size]) 
-#读一行，如果定义了size，有可能返回的只是一行的一部分
-F.readlines([size]) 
-#把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。
+<div class="hlcode"><pre><span class="n">F</span><span class="p">.</span><span class="n">read</span><span class="p">([</span><span class="n">size</span><span class="p">])</span> #<span class="n">size</span>为读取的长度，以<span class="n">byte</span>为单位
+<span class="n">F</span><span class="p">.</span><span class="n">readline</span><span class="p">([</span><span class="n">size</span><span class="p">])</span> 
+<span class="cp">#读一行，如果定义了size，有可能返回的只是一行的一部分</span>
+<span class="n">F</span><span class="p">.</span><span class="n">readlines</span><span class="p">([</span><span class="n">size</span><span class="p">])</span> 
+<span class="cp">#把文件每一行作为一个list的一个成员，并返回这个list。其实它的内部是通过循环调用readline()来实现的。如果提供size参数，size是表示读取内容的总长，也就是说可能只读到文件的一部分。</span>
 
-F.write(str) 
-#把str写到文件中，write()并不会在str后加上一个换行符
-F.writelines(seq) 
-#把seq的内容全部写到文件中。这个函数也只是忠实地写入，不会在每行后面加上任何东西。
+<span class="n">F</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> 
+<span class="cp">#把str写到文件中，write()并不会在str后加上一个换行符</span>
+<span class="n">F</span><span class="p">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> 
+<span class="cp">#把seq的内容全部写到文件中。这个函数也只是忠实地写入，不会在每行后面加上任何东西。</span>
 
-F.close() 
-F.next() 
-#返回下一行，并将文件操作标记位移到下一行。把一个file用于for ... in file这样的语句时，就是调用next()函数来实现遍历的。
+<span class="n">F</span><span class="p">.</span><span class="n">close</span><span class="p">()</span> 
+<span class="n">F</span><span class="p">.</span><span class="n">next</span><span class="p">()</span> 
+<span class="cp">#返回下一行，并将文件操作标记位移到下一行。把一个file用于for ... in file这样的语句时，就是调用next()函数来实现遍历的。</span>
 </pre></div>
   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" ><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/80x15.png" align="right" /></a>本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>进行许可。
 </div>
